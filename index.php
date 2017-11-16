@@ -37,7 +37,11 @@ class collection {
     }
     static public function findAll() {
         $db = dbConn::getConnection();
-        $tableName = get_called_class();
+        $calledClassName = get_called_class();
+
+        $modelClassName = $calledClassName::$modelName;
+        $tableName = $modelClassName::TABLE_NAME;
+
         $sql = 'SELECT * FROM ' . $tableName;
         $statement = $db->prepare($sql);
         $statement->execute();
@@ -48,15 +52,27 @@ class collection {
     }
     static public function findOne($id) {
         $db = dbConn::getConnection();
-        $tableName = get_called_class();
-        $sql = 'SELECT * FROM ' . $tableName . ' WHERE id =' . $id;
+        $calledClassName = get_called_class();
+
+        $modelClassName = $calledClassName::$modelName;
+        $tableName = $modelClassName::TABLE_NAME;
+
+        $sql = 'SELECT * FROM ' . $tableName . ' WHERE id = ?';
         $statement = $db->prepare($sql);
+        $statement->bindValue(1, $id);
         $statement->execute();
+
         $class = static::$modelName;
         $statement->setFetchMode(PDO::FETCH_CLASS, $class);
         $recordsSet =  $statement->fetchAll();
-        return $recordsSet[0];
-    }
+
+        if($statement->rowCount() == 1)
+        {
+            return $recordsSet[0];
+        }
+        
+        return NULL;
+    }       
 }
 
 class accounts extends collection {
@@ -67,7 +83,7 @@ class todos extends collection {
 }
 
 class model {
-    protected $tableName;
+
     public function save()
     {
         if ($this->id = '') {
