@@ -122,11 +122,9 @@ class account extends model {
     public $lname;
     public $password;
     public $phone;
-    public function __construct()
-    {
-        $this->tableName = 'accounts';
     
-    }
+    const PRIMARY_KEY = 'id';
+    const TABLE_NAME = 'accounts';
 }
 class todo extends model {
     public $id;
@@ -137,9 +135,8 @@ class todo extends model {
     public $message;
     public $isdone;
     public function __construct()
-    {
-        $this->tableName = 'todos';
-    
-    }
+   
+    const PRIMARY_KEY = 'id';
+    const TABLE_NAME = 'todos';
 }
 
