@@ -86,20 +86,59 @@ class model {
 
     public function save()
     {
-        if ($this->id = '') {
-            $sql = $this->insert();
-        } else {
-            $sql = $this->update();
-        }
         $db = dbConn::getConnection();
-        $statement = $db->prepare($sql);
-        $statement->execute();
-        $tableName = get_called_class();
-        $array = get_object_vars($this);
-        $columnString = implode(',', $array);
-        $valueString = ":".implode(',:', $array);
-        echo 'I just saved record: ' . $this->id;
+
+        if ($this->id == '')
+        {
+            $sql = $this->insert();
+
+            print $sql . "<br/>";
+            $statement = $db->prepare($sql);
+            $columnValues = $this->getColumnValues();
+            
+            $i = 1;
+            foreach($columnValues as $value)
+            {
+                $statement->bindValue($i, $value);
+                $i++;
+            }
+                        
+            print "<pre>" . print_r($statement->debugDumpParams(), true) . "</pre>";
+
+            $statement->execute();
+            echo 'I just saved record with id: ' . $db->lastInsertId();
+            print "<br/>";
+            
+            return $db->lastInsertId(); 
+        } 
+        else
+        {
+            $sql = $this->update();
+            
+            print $sql . "<br/>";
+            
+            //check to see if the record I want to update exists
+            $statement = $db->prepare($sql);
+            $statement->execute();
+            echo 'I just updated record: ' . $statement->rowCount(); 
+            print "<br/>";
+            
+            return $this->id; 
+        }
+    private function getColumnValues() {
+
+        $obj = new ReflectionObject($this);
+        $columns = array();
+        foreach($obj->getProperties(ReflectionProperty::IS_PUBLIC) as $property)
+        {
+            $columns[$property->getName()] = $property->getValue($this); 
+            //array('property name' => 'property value')
+        }
+        
+        return $columns;
     }
+
+}
     private function insert() {
         $sql = '';
         return $sql;
