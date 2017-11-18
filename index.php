@@ -125,6 +125,34 @@ class model {
             
             return $this->id; 
         }
+
+    private function insert()
+    {       
+
+        $tableName = $this::TABLE_NAME;
+        $columnString = implode(',', $this->getColumnNames());
+        $valuePlaceholderArray = array_fill(0, sizeof($this->getColumnValues()), '?');
+        $valueString = implode(',', $valuePlaceholderArray);
+    
+        $sql = "INSERT INTO $tableName ($columnString) VALUES ($valueString)";
+        return $sql;
+    }
+
+
+    private function getColumnNames()
+    {
+        $obj = new ReflectionObject($this);
+        $objs = $obj->getProperties(ReflectionProperty::IS_PUBLIC);
+        $columns = array();
+        
+        foreach($objs as $column)
+        {
+            $columns[] = $column->{'name'};
+        }
+        
+        return $columns;
+    }
+    
     private function getColumnValues() {
 
         $obj = new ReflectionObject($this);
