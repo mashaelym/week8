@@ -138,6 +138,29 @@ class model {
         return $sql;
     }
 
+    private function update()
+    {
+
+        $tableName = $this::TABLE_NAME;
+        $primaryKey = $this::PRIMARY_KEY;
+        $id = $this->getColumnValues()['id'];
+                        
+        $valueString = NULL;
+        
+        foreach($this->getColumnValues() as $columnName => $value)
+        {
+        
+            if($columnName !== $primaryKey and !empty($value))
+            {
+                $valueString .= $columnName . ' = \'' . $value .'\', '; 
+            }
+        }
+        
+        $valueString = rtrim($valueString, ', ');
+        
+        $sql = "UPDATE $tableName SET $valueString WHERE $primaryKey = $id";
+        return $sql;
+    }
 
     private function getColumnNames()
     {
