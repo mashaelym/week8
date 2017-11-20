@@ -161,7 +161,34 @@ class model {
         $sql = "UPDATE $tableName SET $valueString WHERE $primaryKey = $id";
         return $sql;
     }
+    public function deleteById()
+    {
 
+        $tableName = $this::TABLE_NAME;
+        $primaryKey = $this::PRIMARY_KEY;
+        
+        $sql = "DELETE FROM $tableName WHERE $primaryKey = ?";
+        
+        $db = dbConn::getConnection();
+        $statement = $db->prepare($sql);
+        $statement->bindValue(1, $this->id);
+        
+        print "<pre>" . print_r($statement->debugDumpParams(), true) . "</pre>";
+
+        $statement->execute();
+        
+
+        echo 'We deleted this number of rows ' . $statement->rowCount() . "<br/>";
+        echo 'I just tried to delete record with id: ' . $this->id;
+        print "<br/>";
+        
+        if($statement->rowCount() == 1)
+        {
+            return true;
+        }
+        
+        return false;
+    }
     private function getColumnNames()
     {
         $obj = new ReflectionObject($this);
