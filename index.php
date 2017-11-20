@@ -5,6 +5,7 @@ define('DATABASE', 'ma735');
 define('USERNAME', 'ma735');
 define('PASSWORD', 'Zv51vHNoj');
 define('CONNECTION', 'sql1.njit.edu');
+
 class dbConn{
     protected static $db;
     private function __construct() {
@@ -57,7 +58,7 @@ class collection {
         $modelClassName = $calledClassName::$modelName;
         $tableName = $modelClassName::TABLE_NAME;
 
-        $sql = 'SELECT * FROM ' . $tableName . ' WHERE id = ?';
+        $sql = 'SELECT * FROM ' . $tableName . ' WHERE id = ?' ;
         $statement = $db->prepare($sql);
         $statement->bindValue(1, $id);
         $statement->execute();
@@ -82,8 +83,8 @@ class todos extends collection {
     protected static $modelName = 'todo';
 }
 
-class model {
-
+class model 
+{
     public function save()
     {
         $db = dbConn::getConnection();
@@ -125,15 +126,19 @@ class model {
             
             return $this->id; 
         }
+    }
 
     private function insert()
     {       
-
+ 
         $tableName = $this::TABLE_NAME;
+        
         $columnString = implode(',', $this->getColumnNames());
+
         $valuePlaceholderArray = array_fill(0, sizeof($this->getColumnValues()), '?');
+        
         $valueString = implode(',', $valuePlaceholderArray);
-    
+              
         $sql = "INSERT INTO $tableName ($columnString) VALUES ($valueString)";
         return $sql;
     }
@@ -161,6 +166,7 @@ class model {
         $sql = "UPDATE $tableName SET $valueString WHERE $primaryKey = $id";
         return $sql;
     }
+    
     public function deleteById()
     {
 
@@ -203,7 +209,8 @@ class model {
         return $columns;
     }
     
-    private function getColumnValues() {
+    private function getColumnValues()
+     {
 
         $obj = new ReflectionObject($this);
         $columns = array();
@@ -217,20 +224,9 @@ class model {
     }
 
 }
-    private function insert() {
-        $sql = '';
-        return $sql;
-    }
-    private function update() {
-        $sql = '';
-        return $sql;
-        echo 'I just updated record' . $this->id;
-    }
-    public function delete() {
-        echo 'I just deleted record' . $this->id;
-    }
-}
-class account extends model {
+    
+class account extends model
+ {
     public $id;
     public $birthday;
     public $email;
@@ -243,7 +239,8 @@ class account extends model {
     const PRIMARY_KEY = 'id';
     const TABLE_NAME = 'accounts';
 }
-class todo extends model {
+class todo extends model
+ {
     public $id;
     public $owneremail;
     public $ownerid;
@@ -251,9 +248,12 @@ class todo extends model {
     public $duedate;
     public $message;
     public $isdone;
-    public function __construct()
    
     const PRIMARY_KEY = 'id';
     const TABLE_NAME = 'todos';
 }
 
+
+
+
+    ?>
