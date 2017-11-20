@@ -253,6 +253,129 @@ class todo extends model
     const TABLE_NAME = 'todos';
 }
 
+// *****************************************************************************
+
+//testing ...
+
+
+//insert
+$record = new todo();
+$record->id = 6;
+$record->message = 'finish homework';
+$record->isdone = 1;
+$record->save();
+
+echo '<h1>' . "Insert NEW Record" . '</h1>';
+
+ $tableOpenString = '<table>';
+    $headerString = '<thead><tr>';
+
+    foreach ($record as $columnName)
+    {
+      $headerString.="<td>$columnName</td>";
+    }
+
+    $headerString.='</thead></tr>';
+    $tableBodyString = '<tbody>';
+    for ($i=1 ; $i<=sizeof($record)-1 ; $i++)
+    {
+        $currentArray = $records[$i];  
+
+        if (sizeof($currentArray)==sizeof($record[0]))
+        {
+          $tableBodyString.='<tr>';
+         foreach ($currentArray as $row)
+         {
+            $tableBodyString.="<td>$row</td>";
+         }
+         $tableBodyString.='</tr>';
+        }
+    }
+    $tableBodyString.='</tbody>';
+    $tableCloseString = '</table>';
+
+    $htmlOutput = $tableOpenString . $headerString . $tableBodyString . $tableCloseString . "<br/>";
+
+    print $htmlOutput; 
+    echo '<hr>';
+
+
+// this would be the method to put in the index page for todos
+
+$records = todos::findAll();
+
+echo '<h1>' . "Select All Records" . '</h1>';
+$tableOpenString = '<table>';
+    $headerString = '<thead><tr>';
+
+    foreach ($records[0] as $columnName)
+    {
+      $headerString.="<td>$columnName</td>";
+    }
+
+    $headerString.='</thead></tr>';
+    $tableBodyString = '<tbody>';
+    for ($i=1 ; $i<=sizeof($records)-1 ; $i++)
+    {
+        $currentArray = $records[$i];  
+
+        if (sizeof($currentArray)==sizeof($records[0]))
+        {
+          $tableBodyString.='<tr>';
+         foreach ($currentArray as $row)
+         {
+            $tableBodyString.="<td>$row</td>";
+         }
+         $tableBodyString.='</tr>';
+        }
+    }
+    $tableBodyString.='</tbody>';
+    $tableCloseString = '</table>';
+
+    $htmlOutput = $tableOpenString . $headerString . $tableBodyString . $tableCloseString . "<br/>";
+
+    print $htmlOutput; 
+    echo '<hr>';
+ 
+
+
+
+//this code is used to get one record and is used for showing one record or updating one record
+
+$record = todos::findOne(1);
+
+echo '<h1>' . "Select One Record" . '</h1>';
+$tableOpenString = '<table>';
+    $headerString = '<thead><tr>';
+
+    foreach ($record as $columnName)
+    {
+      $headerString.="<td>$columnName</td>";
+    }
+
+    $headerString.='</thead></tr>';
+    $tableBodyString = '<tbody>';
+    for ($i=1 ; $i<=sizeof($record)-1 ; $i++)
+    {
+        $currentArray = $record[$i];  
+
+        if (sizeof($currentArray)==sizeof($record[0]))
+        {
+          $tableBodyString.='<tr>';
+         foreach ($currentArray as $row)
+         {
+            $tableBodyString.="<td>$row</td>";
+         }
+         $tableBodyString.='</tr>';
+        }
+    }
+    $tableBodyString.='</tbody>';
+    $tableCloseString = '</table>';
+
+    $htmlOutput = $tableOpenString . $headerString . $tableBodyString . $tableCloseString;
+
+    print $htmlOutput; 
+    echo '<hr>';
 
 
 
