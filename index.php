@@ -104,7 +104,7 @@ class model
                 $i++;
             }
                         
-            print "<pre>" . print_r($statement->debugDumpParams(), true) . "</pre>";
+ //           print "<pre>" . print_r($statement->debugDumpParams(), true) . "</pre>";
 
             $statement->execute();
             echo 'I just saved record with id: ' . $db->lastInsertId();
@@ -121,7 +121,7 @@ class model
             //check to see if the record I want to update exists
             $statement = $db->prepare($sql);
             $statement->execute();
-            echo 'I just updated record: ' . $statement->rowCount(); 
+      //      echo 'I just updated record: ' . $statement->rowCount(); 
             print "<br/>";
             
             return $this->id; 
@@ -179,7 +179,7 @@ class model
         $statement = $db->prepare($sql);
         $statement->bindValue(1, $this->id);
         
-        print "<pre>" . print_r($statement->debugDumpParams(), true) . "</pre>";
+//    print "<pre>" . print_r($statement->debugDumpParams(), true) . "</pre>";
 
         $statement->execute();
         
@@ -260,9 +260,12 @@ class todo extends model
 
 //insert
 $record = new todo();
-$record->id = 6;
-$record->message = 'finish homework';
-$record->isdone = 1;
+$record->message = 'some task';
+$record->isdone = 0;
+$record->ownerid = 1;
+$record->owneremail = 'me@me.com';
+$record->createddate = '2017-11-14 12:59:45';
+$record->duedate = '2017-11-15 12:59:45';
 $record->save();
 
 echo '<h1>' . "Insert NEW Record" . '</h1>';
