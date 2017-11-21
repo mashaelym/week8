@@ -104,10 +104,10 @@ class model
                 $i++;
             }
                         
- //           print "<pre>" . print_r($statement->debugDumpParams(), true) . "</pre>";
+//           print "<pre>" . print_r($statement->debugDumpParams(), true) . "</pre>";
 
             $statement->execute();
-            echo 'I just saved record with id: ' . $db->lastInsertId();
+//            echo 'I just saved record with id: ' . $db->lastInsertId();
             print "<br/>";
             
             return $db->lastInsertId(); 
@@ -184,8 +184,8 @@ class model
         $statement->execute();
         
 
-        echo 'We deleted this number of rows ' . $statement->rowCount() . "<br/>";
-        echo 'I just tried to delete record with id: ' . $this->id;
+//      echo 'We deleted this number of rows ' . $statement->rowCount() . "<br/>";
+//      echo 'I just tried to delete record with id: ' . $this->id;
         print "<br/>";
         
         if($statement->rowCount() == 1)
@@ -379,7 +379,5 @@ $tableOpenString = '<table>';
 
     print $htmlOutput; 
     echo '<hr>';
-
-
 
     ?>
